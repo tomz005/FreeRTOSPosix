@@ -105,6 +105,9 @@ void vTask5(void *);
 void vTask6(void *);
 void vTask7(void *);
 void vTask8(void *);
+void vTask9(void *);
+void vTask10(void *);
+void vTask11(void *);
 
 #endif
 
@@ -113,6 +116,7 @@ static int counter4 = 0;
 static int counter5 = 0;
 static int counter6 = 0;
 static int counter7 = 0;
+static int totaltime = 0;
 int main(void)
 {
     int deadline1 = 130;
@@ -125,13 +129,20 @@ int main(void)
     // xTaskCreate(vTask3, "Task 3", 1000, &deadline3, 3, NULL);
 
     /*SJF Scheduling*/
-    xTaskCreate(vTask4, "Task 4", 1000, NULL, 4, NULL);
-    xTaskCreate(vTask5, "Task 5", 1000, NULL, 2, NULL);
-    xTaskCreate(vTask6, "Task 6", 1000, NULL, 3, NULL);
-    xTaskCreate(vTask7, "Task 7", 1000, NULL, 1, NULL);
+    // xTaskCreate(vTask4, "Task 4", 1000, NULL, 4, NULL);
+    // xTaskCreate(vTask5, "Task 5", 1000, NULL, 2, NULL);
+    // xTaskCreate(vTask6, "Task 6", 1000, NULL, 3, NULL);
+    // xTaskCreate(vTask7, "Task 7", 1000, NULL, 1, NULL);
+    /*SJF Scheduling with 1 task*/
+    xTaskCreate(vTask8, "Task 8", 1000, NULL, 4, NULL);
+    xTaskCreate(vTask9, "Task 9", 1000, NULL, 2, NULL);
+    xTaskCreate(vTask10, "Task 10", 1000, NULL, 3, NULL);
+    xTaskCreate(vTask11, "Task 11", 1000, NULL, 1, NULL);
 #endif
 
     vTaskStartScheduler();
+    // vTaskEndScheduler();
+
     return 0;
 }
 
@@ -241,15 +252,15 @@ void vTask3(void *parameter)
     printf("T3 -> End time : %0.3fms\n", (endTime / 10.0));
     vTaskDelete(NULL);
 }
-void vTask8(void *parameter)
-{
-    TickType_t xLastWaketime = xTaskGetTickCount();
-    while (1)
-    {
-        printf("Task 8 with 500ms\n");
-        // vTaskDelayUntil(&xLastWaketime, pdMS_TO_TICKS(500));
-    }
-}
+// void vTask8(void *parameter)
+// {
+//     TickType_t xLastWaketime = xTaskGetTickCount();
+//     while (1)
+//     {
+//         printf("Task 8 with 500ms\n");
+//         // vTaskDelayUntil(&xLastWaketime, pdMS_TO_TICKS(500));
+//     }
+// }
 void vTask4(void *parameter)
 {
     // printf("%d\n", pdMS_TO_TICKS(4));
@@ -394,6 +405,104 @@ void vTask7(void *parameter)
         if (22 * counter7 > curtime)
             vTaskDelayUntil(&curtime, pdMS_TO_TICKS(22 * counter7 - curtime));
     }
+}
+
+void vTask8(void *parameter)
+{
+    // int deadline = *((int *)parameter);
+    TickType_t startTime = xTaskGetTickCount();
+    printf("T1 -> Start time : %dms\n", startTime);
+    int flag = 0;
+    for (;;)
+    {
+        TickType_t curtime = xTaskGetTickCount();
+        // printf("Loop time : %dms\n", curtime);
+        if (curtime > 8 && !flag)
+        {
+            flag = 1;
+            printf("Deadline Violation for T1\n");
+        }
+        if (curtime >= (startTime + 3))
+            break;
+    }
+    TickType_t endTime = xTaskGetTickCount();
+    printf("T1 -> End time : %dms\n", endTime);
+    printf("Response time for T1: %dms\n", endTime);
+    totaltime += endTime;
+    vTaskDelete(NULL);
+}
+void vTask9(void *parameter)
+{
+    // int deadline = *((int *)parameter);
+    TickType_t startTime = xTaskGetTickCount();
+    printf("T2 -> Start time : %dms\n", startTime);
+    int flag = 0;
+    for (;;)
+    {
+        TickType_t curtime = xTaskGetTickCount();
+        // printf("Loop time : %dms\n", curtime);
+        if (curtime > 15 && !flag)
+        {
+            flag = 1;
+            printf("Deadline Violation for T2\n");
+        }
+        if (curtime >= (startTime + 8))
+            break;
+    }
+    TickType_t endTime = xTaskGetTickCount();
+    printf("T1 -> End time : %dms\n", endTime);
+    printf("Response time for T2: %dms\n", endTime);
+    totaltime += endTime;
+    vTaskDelete(NULL);
+}
+void vTask10(void *parameter)
+{
+    // int deadline = *((int *)parameter);
+    TickType_t startTime = xTaskGetTickCount();
+    printf("T3 -> Start time : %dms\n", startTime);
+    int flag = 0;
+    for (;;)
+    {
+        TickType_t curtime = xTaskGetTickCount();
+        // printf("Loop time : %dms\n", curtime);
+        if (curtime > 20 && !flag)
+        {
+            flag = 1;
+            printf("Deadline Violation for T3\n");
+        }
+        if (curtime >= (startTime + 4))
+            break;
+    }
+    TickType_t endTime = xTaskGetTickCount();
+    printf("T3 -> End time : %dms\n", endTime);
+    printf("Response time for T3: %dms\n", endTime);
+    totaltime += endTime;
+    vTaskDelete(NULL);
+}
+void vTask11(void *parameter)
+{
+    // int deadline = *((int *)parameter);
+    TickType_t startTime = xTaskGetTickCount();
+    printf("T4 -> Start time : %dms\n", startTime);
+    int flag = 0;
+    for (;;)
+    {
+        TickType_t curtime = xTaskGetTickCount();
+        // printf("Loop time : %dms\n", curtime);
+        if (curtime > 22 && !flag)
+        {
+            flag = 1;
+            printf("Deadline Violation for T4\n");
+        }
+        if (curtime >= (startTime + 10))
+            break;
+    }
+    TickType_t endTime = xTaskGetTickCount();
+    printf("T4 -> End time : %dms\n", endTime);
+    printf("Response time for T4: %dms\n", endTime);
+    // totaltime += endTime;
+    // printf("Average response time for tasks : %0.3f", (totaltime / 4.0));
+    vTaskDelete(NULL);
 }
 #endif
 /* CH3_TASKMANAGEMENT ends */
