@@ -120,15 +120,15 @@ int main(void)
     int deadline3 = 200;
 #ifdef CH3_TASKMANAGEMENT
     /*FIFO SCHEDULING*/
-    xTaskCreate(vTask1, "Task 1", 1000, &deadline1, 2, NULL);
-    xTaskCreate(vTask2, "Task 2", 1000, &deadline2, 1, NULL);
-    xTaskCreate(vTask3, "Task 3", 1000, &deadline3, 3, NULL);
+    // xTaskCreate(vTask1, "Task 1", 1000, &deadline1, 2, NULL);
+    // xTaskCreate(vTask2, "Task 2", 1000, &deadline2, 1, NULL);
+    // xTaskCreate(vTask3, "Task 3", 1000, &deadline3, 3, NULL);
 
     /*SJF Scheduling*/
-    // xTaskCreate(vTask4, "Task 4", 1000, NULL, 4, NULL);
-    // xTaskCreate(vTask5, "Task 5", 1000, NULL, 2, NULL);
-    // xTaskCreate(vTask6, "Task 6", 1000, NULL, 3, NULL);
-    // xTaskCreate(vTask7, "Task 7", 1000, NULL, 1, NULL);
+    xTaskCreate(vTask4, "Task 4", 1000, NULL, 4, NULL);
+    xTaskCreate(vTask5, "Task 5", 1000, NULL, 2, NULL);
+    xTaskCreate(vTask6, "Task 6", 1000, NULL, 3, NULL);
+    xTaskCreate(vTask7, "Task 7", 1000, NULL, 1, NULL);
 #endif
 
     vTaskStartScheduler();
