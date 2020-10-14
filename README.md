@@ -16,4 +16,7 @@ https://www.freertos.org/Documentation/RTOS_book.html
 For the Base implementation of FreeRTOS by William Davy refer:  
 https://github.com/adisarip/FreeRTOSPosixBase
 
+Uncomment Tasks 1-3 for FCFS Scheduling.
+Uncomment Tasks 4-7 for SJF Periodic Job Scheduling.
+Uncomment Tasks 8-11 for SJF Single Job Scheduling.
 
